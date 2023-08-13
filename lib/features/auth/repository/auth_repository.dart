@@ -1,8 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:reddit/core/constants/constants.dart';
+import 'package:reddit/core/constants/firebase_constants.dart';
+import 'package:reddit/core/failure.dart';
 import 'package:reddit/core/providers/firebase_providers.dart';
+import 'package:reddit/core/type_def.dart';
+import 'package:reddit/models/user_model.dart';
 
 final authRepositoryProvider = Provider((ref) => AuthRepository(
     firestore: ref.read(firestoreProvider),
@@ -20,7 +26,10 @@ class AuthRepository {
       : _auth = auth,
         _firestore = firestore,
         _googleSignIn = googleSignIn;
-  void signInWithGoogle() async {
+
+  CollectionReference get _users =>
+      _firestore.collection(FirebaseConstants.usersCollection);
+  FutureEither<UserModel> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final googleAuth = await googleUser?.authentication;
@@ -28,9 +37,24 @@ class AuthRepository {
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
-      print(userCredential.user?.email);
+      late UserModel userModel;
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        userModel = UserModel(
+          name: userCredential.user!.displayName ?? '',
+          profilePic: userCredential.user!.photoURL ?? Constants.avatarDefault,
+          banner: Constants.bannerDefault,
+          uid: userCredential.user!.uid,
+          isAuthenticated: true,
+          karma: 0,
+          awards: [],
+        );
+        _users.doc(userCredential.user!.uid).set(userModel.toMap());
+      }
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      throw e.message!;
     } catch (e) {
-      print(e);
+      return left(Failure(message: e.toString()));
     }
   }
 }
