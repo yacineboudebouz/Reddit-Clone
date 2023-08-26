@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class Community {
   final String name;
   final String banner;
@@ -39,5 +40,23 @@ class Community {
   @override
   String toString() {
     return 'Community(name: $name, banner: $banner, avatar: $avatar, id: $id, members: $members, mods: $mods)';
+  }
+
+  Community copyWith({
+    String? name,
+    String? banner,
+    String? avatar,
+    String? id,
+    List<String>? members,
+    List<String>? mods,
+  }) {
+    return Community(
+      name: name ?? this.name,
+      banner: banner ?? this.banner,
+      avatar: avatar ?? this.avatar,
+      id: id ?? this.id,
+      members: members ?? this.members,
+      mods: mods ?? this.mods,
+    );
   }
 }

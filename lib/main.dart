@@ -35,7 +35,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
