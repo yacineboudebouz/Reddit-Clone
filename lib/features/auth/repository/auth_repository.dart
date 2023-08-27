@@ -36,6 +36,7 @@ class AuthRepository {
       final googleAuth = await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
       UserModel userModel;
@@ -56,6 +57,7 @@ class AuthRepository {
       }
       return right(userModel);
     } on FirebaseException catch (e) {
+      print(e.code);
       throw e.message!;
     } catch (e) {
       return left(Failure(message: e.toString()));
