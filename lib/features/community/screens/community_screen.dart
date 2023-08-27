@@ -79,9 +79,9 @@ class CommunityScreen extends ConsumerWidget {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 25)),
                                       child: Text(
-                                          community.mods.contains(user.uid)
-                                              ? 'Join'
-                                              : 'Joined'),
+                                          community.members.contains(user.uid)
+                                              ? 'Joined'
+                                              : 'Join'),
                                     )
                             ],
                           ),
