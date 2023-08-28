@@ -69,11 +69,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(userProfileControllerProvider);
+    final currentTheme = ref.watch(themeNotifierProvider);
     return isLoading
         ? const Loader()
         : ref.watch(getUserDataProvider(widget.uid)).when(
             data: (user) => Scaffold(
-                  backgroundColor: Pallete.darkModeAppTheme.backgroundColor,
+                  backgroundColor: currentTheme.backgroundColor,
                   appBar: AppBar(
                     title: const Text('Edit profile'),
                     actions: [
@@ -96,8 +97,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                     borderType: BorderType.RRect,
                                     dashPattern: const [12, 4],
                                     strokeCap: StrokeCap.round,
-                                    color: Pallete.darkModeAppTheme.textTheme
-                                        .bodyMedium!.color!,
+                                    color: currentTheme
+                                        .textTheme.bodyMedium!.color!,
                                     child: Container(
                                       width: double.infinity,
                                       height: 150,
