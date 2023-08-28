@@ -5,6 +5,7 @@ import 'package:reddit/features/community/screens/community_screen.dart';
 import 'package:reddit/features/community/screens/create_community_screen.dart';
 import 'package:reddit/features/community/screens/edit_community_screen.dart';
 import 'package:reddit/features/community/screens/mod_tools_screen.dart';
+import 'package:reddit/features/home/post/screens/add_post_type_screen.dart';
 import 'package:reddit/features/home/screens/home_screen.dart';
 import 'package:reddit/features/user_profile/screens/edit_profile_screen.dart';
 import 'package:reddit/features/user_profile/screens/user_profile_screen.dart';
@@ -37,5 +38,7 @@ final loggedInRoute = RouteMap(
         child: UserProfileScreen(uid: route.pathParameters['uid']!)),
     '/edit-profile/:uid': (route) => MaterialPage(
         child: EditProfileScreen(uid: route.pathParameters['uid']!)),
+    '/add-post/:type': (route) => MaterialPage(
+        child: AddPostTypeScreen(type: route.pathParameters['type']!)),
   },
 );

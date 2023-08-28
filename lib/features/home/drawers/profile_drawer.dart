@@ -1,3 +1,4 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit/features/auth/controller/auth_controller.dart';
@@ -57,12 +58,32 @@ class ProfileDrawer extends ConsumerWidget {
               logOut(ref);
             },
           ),
-          Switch(
-              value: ref.watch(themeNotifierProvider.notifier).mode ==
-                  ThemeMode.dark,
-              onChanged: (value) {
-                toggleTheme(ref);
-              }),
+          AnimatedToggleSwitch.dual(
+            current: ref.watch(themeNotifierProvider.notifier).mode ==
+                ThemeMode.dark,
+            first: false,
+            second: true,
+            borderWidth: 2.0,
+            borderColor: ref.watch(themeNotifierProvider).highlightColor,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 1.5),
+              ),
+            ],
+            onChanged: (mode) {
+              toggleTheme(ref);
+            },
+            colorBuilder: (b) => b ? Colors.red : Colors.green,
+            iconBuilder: (value) => value
+                ? const Icon(Icons.nightlight_round)
+                : const Icon(Icons.sunny),
+            textBuilder: (value) => value
+                ? const Center(child: Text('Light'))
+                : const Center(child: Text('Dark')),
+          )
         ],
       )),
     );

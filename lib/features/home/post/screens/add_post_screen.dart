@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit/theme/pallete.dart';
+import 'package:routemaster/routemaster.dart';
 
 class AddPostScreen extends ConsumerWidget {
   const AddPostScreen({super.key});
+
+  void navigateToType(BuildContext context, String type) {
+    Routemaster.of(context).push('/add-post/$type');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +20,7 @@ class AddPostScreen extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () => navigateToType(context, 'image'),
           child: SizedBox(
             height: cardHeightWidth,
             width: cardHeightWidth,
@@ -35,7 +40,7 @@ class AddPostScreen extends ConsumerWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () => navigateToType(context, 'text'),
           child: SizedBox(
             height: cardHeightWidth,
             width: cardHeightWidth,
@@ -55,7 +60,7 @@ class AddPostScreen extends ConsumerWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () => navigateToType(context, 'link'),
           child: SizedBox(
             height: cardHeightWidth,
             width: cardHeightWidth,

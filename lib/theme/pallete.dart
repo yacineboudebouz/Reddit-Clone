@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit/core/enums/enums.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 final themeNotifierProvider =
@@ -39,7 +39,9 @@ class Pallete {
   static var lightModeAppTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: whiteColor,
     cardColor: greyColor,
+
     appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
       backgroundColor: whiteColor,
       elevation: 0,
       iconTheme: IconThemeData(
