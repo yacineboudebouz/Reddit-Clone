@@ -47,6 +47,7 @@ dependencies:
   file_picker: ^5.3.4
   shared_preferences: ^2.2.0
   animated_toggle_switch: ^0.7.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
