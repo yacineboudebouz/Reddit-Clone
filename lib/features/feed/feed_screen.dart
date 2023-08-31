@@ -21,6 +21,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
         data: (data) => ref.watch(userPostsProvider(data)).when(
             data: (posts) {
               return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: posts.length,
                   itemBuilder: (context, index) {
                     final post = posts[index];
