@@ -92,19 +92,18 @@ class Post {
     return Post(
       id: map['id'] as String,
       title: map['title'] as String,
-      link: map['link'] != null ? map['link'] as String : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
+      link: map['link'] != null ? map['link'] : null,
+      description: map['description'] != null ? map['description'] : '',
       communityName: map['communityName'] as String,
-      communityProfilePic: map['communityProfilePic'] as String,
-      upvotes: List<String>.from((map['upvotes'] as List<String>)),
-      downvotes: List<String>.from((map['downvotes'] as List<String>)),
-      commentsCount: map['commentsCount'] as int,
-      username: map['username'] as String,
-      uid: map['uid'] as String,
-      type: map['type'] as String,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-      awards: List<String>.from((map['awards'] as List<String>)),
+      communityProfilePic: map['communityProfilePic'],
+      upvotes: List<String>.from((map['upvotes'])),
+      downvotes: List<String>.from((map['downvotes'])),
+      commentsCount: map['commentsCount'],
+      username: map['username'],
+      uid: map['uid'],
+      type: map['type'],
+      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+      awards: List<String>.from((map['awards'])),
     );
   }
 

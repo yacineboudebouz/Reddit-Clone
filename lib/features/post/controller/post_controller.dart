@@ -9,7 +9,7 @@ import 'package:reddit/models/post_model.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/utils.dart';
+import '../../../core/utils.dart';
 import '../repository/post_repository.dart';
 
 final postControllerProvider =
@@ -20,6 +20,12 @@ final postControllerProvider =
       postRepository: postRepository,
       ref: ref,
       storageRepository: storageRepository);
+});
+
+final userPostsProvider =
+    StreamProvider.family((ref, List<Community> communities) {
+  final postController = ref.watch(postControllerProvider.notifier);
+  return postController.fetchUserPosts(communities);
 });
 
 class PostController extends StateNotifier<bool> {
@@ -139,5 +145,12 @@ class PostController extends StateNotifier<bool> {
         },
       );
     });
+  }
+
+  Stream<List<Post>> fetchUserPosts(List<Community> communities) {
+    if (communities.isNotEmpty) {
+      return _postRepository.fetchUserPosts(communities);
+    }
+    return Stream.value([]);
   }
 }

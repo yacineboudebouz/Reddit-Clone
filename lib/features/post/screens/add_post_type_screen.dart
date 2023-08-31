@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit/core/common/error_text.dart';
 import 'package:reddit/core/common/loader.dart';
 import 'package:reddit/features/community/controller/community_controller.dart';
-import 'package:reddit/features/home/post/controller/post_controller.dart';
+import 'package:reddit/features/post/controller/post_controller.dart';
 import 'package:reddit/models/community_model.dart';
 
-import '../../../../core/utils.dart';
-import '../../../../theme/pallete.dart';
+import '../../../core/utils.dart';
+import '../../../theme/pallete.dart';
 
 class AddPostTypeScreen extends ConsumerStatefulWidget {
   const AddPostTypeScreen({super.key, required this.type});
