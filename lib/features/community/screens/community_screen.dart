@@ -7,6 +7,8 @@ import 'package:reddit/features/community/controller/community_controller.dart';
 import 'package:reddit/models/community_model.dart';
 import 'package:routemaster/routemaster.dart';
 
+import '../../../core/common/post_card.dart';
+
 class CommunityScreen extends ConsumerWidget {
   final String name;
   const CommunityScreen({super.key, required this.name});
@@ -104,7 +106,21 @@ class CommunityScreen extends ConsumerWidget {
                   ),
                 ];
               },
-              body: const Text('Displaying posts')),
+              body: ref.watch(getCommunityPostsProvider(name)).when(
+                  data: (posts) {
+                    return ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: posts.length,
+                        itemBuilder: (context, index) {
+                          final post = posts[index];
+                          return ListTile(
+                            title: PostCard(post: post),
+                          );
+                        });
+                  },
+                  error: (error, stacktrace) =>
+                      ErrorText(error: error.toString()),
+                  loading: () => const Loader())),
           error: (error, stacktrace) => ErrorText(error: error.toString()),
           loading: () => const Loader()),
     );
