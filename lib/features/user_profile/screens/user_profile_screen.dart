@@ -20,6 +20,7 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loggedInUser = ref.watch(userProvider);
     return Scaffold(
       body: ref.watch(getUserDataProvider(uid)).when(
             data: (user) => NestedScrollView(
@@ -46,21 +47,22 @@ class UserProfileScreen extends ConsumerWidget {
                             radius: 45,
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.bottomLeft,
-                          padding: const EdgeInsets.all(20),
-                          child: OutlinedButton(
-                            onPressed: () => navigateToEditUser(context),
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                        if (loggedInUser!.uid == user.uid)
+                          Container(
+                            alignment: Alignment.bottomLeft,
+                            padding: const EdgeInsets.all(20),
+                            child: OutlinedButton(
+                              onPressed: () => navigateToEditUser(context),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 25),
                               ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25),
+                              child: const Text('Edit Profile'),
                             ),
-                            child: const Text('Edit Profile'),
                           ),
-                        ),
                       ],
                     ),
                   ),

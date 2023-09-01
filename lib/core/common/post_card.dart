@@ -1,10 +1,14 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit/core/common/error_text.dart';
+import 'package:reddit/core/common/loader.dart';
 import 'package:reddit/core/constants/constants.dart';
+import 'package:reddit/features/community/controller/community_controller.dart';
 import 'package:reddit/features/post/controller/post_controller.dart';
 import 'package:reddit/models/post_model.dart';
 import 'package:reddit/theme/pallete.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../../features/auth/controller/auth_controller.dart';
 
@@ -22,6 +26,14 @@ class PostCard extends ConsumerWidget {
 
   void downvotePost(WidgetRef ref) {
     ref.read(postControllerProvider.notifier).downVote(post);
+  }
+
+  void navigateToCommunity(BuildContext context) {
+    Routemaster.of(context).push('/r/${post.communityName}');
+  }
+
+  void navigateToUser(BuildContext context) {
+    Routemaster.of(context).push('/u/${post.uid}');
   }
 
   @override
@@ -61,10 +73,13 @@ class PostCard extends ConsumerWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          post.communityProfilePic),
-                                      radius: 16,
+                                    GestureDetector(
+                                      onTap: () => navigateToCommunity(context),
+                                      child: CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            post.communityProfilePic),
+                                        radius: 16,
+                                      ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
@@ -78,10 +93,14 @@ class PostCard extends ConsumerWidget {
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text(
-                                            'r/${post.username}',
-                                            style:
-                                                const TextStyle(fontSize: 12),
+                                          GestureDetector(
+                                            onTap: () =>
+                                                navigateToUser(context),
+                                            child: Text(
+                                              'r/${post.username}',
+                                              style:
+                                                  const TextStyle(fontSize: 12),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -140,40 +159,68 @@ class PostCard extends ConsumerWidget {
                                 ),
                               ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                IconButton(
-                                    onPressed: () {
-                                      upvotePost(ref);
-                                    },
-                                    icon: Icon(
-                                      Constants.up,
-                                      size: 30,
-                                      color: post.upvotes.contains(user.uid)
-                                          ? Pallete.blueColor
-                                          : null,
-                                    )),
-                                Text(
-                                  '${post.upvotes.length - post.downvotes.length == 0 ? 'vote' : post.upvotes.length - post.downvotes.length}',
-                                  style: const TextStyle(fontSize: 17),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          upvotePost(ref);
+                                        },
+                                        icon: Icon(
+                                          Constants.up,
+                                          size: 30,
+                                          color: post.upvotes.contains(user.uid)
+                                              ? Pallete.blueColor
+                                              : null,
+                                        )),
+                                    Text(
+                                      '${post.upvotes.length - post.downvotes.length == 0 ? 'vote' : post.upvotes.length - post.downvotes.length}',
+                                      style: const TextStyle(fontSize: 17),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
+                                          downvotePost(ref);
+                                        },
+                                        icon: Icon(
+                                          Constants.down,
+                                          size: 30,
+                                          color:
+                                              post.downvotes.contains(user.uid)
+                                                  ? Pallete.redColor
+                                                  : null,
+                                        )),
+                                  ],
                                 ),
-                                IconButton(
-                                    onPressed: () {
-                                      downvotePost(ref);
-                                    },
-                                    icon: Icon(
-                                      Constants.down,
-                                      size: 30,
-                                      color: post.downvotes.contains(user.uid)
-                                          ? Pallete.redColor
-                                          : null,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.comment)),
-                                Text(
-                                  '${post.commentsCount == 0 ? 'comment' : post.commentsCount}',
-                                  style: const TextStyle(fontSize: 17),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.comment)),
+                                    Text(
+                                      '${post.commentsCount == 0 ? 'comment' : post.commentsCount}',
+                                      style: const TextStyle(fontSize: 17),
+                                    ),
+                                  ],
                                 ),
+                                ref
+                                    .watch(getCommunityNameProvider(
+                                        post.communityName))
+                                    .when(
+                                      data: (data) {
+                                        if (data.mods.contains(user.uid)) {
+                                          return IconButton(
+                                              onPressed: () =>
+                                                  deletePost(ref, context),
+                                              icon: const Icon(
+                                                  Icons.admin_panel_settings));
+                                        }
+                                        return const SizedBox();
+                                      },
+                                      error: (error, stackTrace) =>
+                                          ErrorText(error: error.toString()),
+                                      loading: () => const Loader(),
+                                    )
                               ],
                             ),
                           ],
