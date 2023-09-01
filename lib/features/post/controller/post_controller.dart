@@ -162,4 +162,14 @@ class PostController extends StateNotifier<bool> {
       (r) => showColoredSnackBar(context, 'Deleted Successfully', Colors.red),
     );
   }
+
+  void upVote(Post post) async {
+    final uid = _ref.read(userProvider)!.uid;
+    _postRepository.upVote(post, uid);
+  }
+
+  void downVote(Post post) async {
+    final uid = _ref.read(userProvider)!.uid;
+    _postRepository.downVote(post, uid);
+  }
 }
