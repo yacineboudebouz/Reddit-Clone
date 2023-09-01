@@ -36,6 +36,10 @@ class PostCard extends ConsumerWidget {
     Routemaster.of(context).push('/u/${post.uid}');
   }
 
+  void navigateToComments(BuildContext context) {
+    Routemaster.of(context).push('/${post.id}/comments');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isTypeImage = post.type == 'image';
@@ -48,6 +52,7 @@ class PostCard extends ConsumerWidget {
         children: [
           Container(
             decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 0.5),
               borderRadius: BorderRadius.circular(15),
               color: currentTheme.drawerTheme.backgroundColor,
             ),
@@ -195,7 +200,8 @@ class PostCard extends ConsumerWidget {
                                 Row(
                                   children: [
                                     IconButton(
-                                        onPressed: () {},
+                                        onPressed: () =>
+                                            navigateToComments(context),
                                         icon: const Icon(Icons.comment)),
                                     Text(
                                       '${post.commentsCount == 0 ? 'comment' : post.commentsCount}',
@@ -231,6 +237,9 @@ class PostCard extends ConsumerWidget {
                 )
               ],
             ),
+          ),
+          const SizedBox(
+            height: 10,
           )
         ],
       ),

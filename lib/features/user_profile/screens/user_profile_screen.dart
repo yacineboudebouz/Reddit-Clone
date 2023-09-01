@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit/features/post/controller/post_controller.dart';
+
 import 'package:reddit/features/user_profile/controller/user_profile_controller.dart';
 
 import 'package:routemaster/routemaster.dart';

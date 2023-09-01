@@ -92,4 +92,11 @@ class PostRepository {
       });
     }
   }
+
+  Stream<Post> getPostById(String id) {
+    return _posts
+        .doc(id)
+        .snapshots()
+        .map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
+  }
 }
