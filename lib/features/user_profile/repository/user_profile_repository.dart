@@ -7,6 +7,7 @@ import 'package:reddit/models/user_model.dart';
 
 import '../../../core/failure.dart';
 import '../../../core/type_def.dart';
+import '../../../models/post_model.dart';
 
 final userProfileRepositoryProvider = Provider((ref) {
   return UserProfileRepository(firestore: ref.watch(firestoreProvider));
@@ -20,6 +21,8 @@ class UserProfileRepository {
 
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _posts =>
+      _firestore.collection(FirebaseConstants.postsCollection);
 
   FutureVoid editUser(UserModel user) async {
     try {
@@ -29,5 +32,15 @@ class UserProfileRepository {
     } catch (e) {
       return left(Failure(message: e.toString()));
     }
+  }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _posts
+        .where('uid', isEqualTo: uid)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
   }
 }
