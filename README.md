@@ -1,16 +1,48 @@
-# reddit
+# Reddit Clone App
 
-A new Flutter project.
+A Reddit clone built with Flutter and Firebase, using Riverpod as the state management solution. This project aims to replicate the core features and functionality of the popular Reddit platform.
 
-## Getting Started
+![App Screenshot](/imgs/reddit_clone.png)
 
-This project is a starting point for a Flutter application.
+## Table of Contents
 
-A few resources to get you started if this is your first Flutter project:
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- User authentication with Firebase (Google Sign-In)
+- Creating, and deleting posts
+- Upvoting and downvoting posts
+- Commenting on posts
+- User profiles with profile pictures
+- Real-time updates using Firebase Firestore
+- Responsive design for mobile and tablet
+- Dark mode support
+
+
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Flutter and Dart SDK installed. You can find installation instructions [here](https://flutter.dev/docs/get-started/install).
+- Firebase project set up with Firestore and Authentication. Follow Firebase documentation for setup.
+- IDE or code editor of your choice (e.g., Visual Studio Code, Android Studio).
+- Git installed.
+
+## Usage
+- Sign up for an account or use the provided demo account.
+- Create, upvote, and comment on posts.
+- Explore various subreddits and sort posts based on your preferences.
+- Customize your profile with a profile picture and bio.
+
+## Contributing
+Contributions are welcome! Please refer to the Contributing Guidelines for details.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
