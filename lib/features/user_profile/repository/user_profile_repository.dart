@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:reddit/core/constants/firebase_constants.dart';
+import 'package:reddit/core/enums/enums.dart';
 import 'package:reddit/core/providers/firebase_providers.dart';
 import 'package:reddit/models/user_model.dart';
 
@@ -42,5 +43,15 @@ class UserProfileRepository {
         .map((event) => event.docs
             .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
             .toList());
+  }
+
+  FutureVoid updateUserKarma(UserModel user) async {
+    try {
+      return right(_users.doc(user.uid).update({'karma': user.karma}));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
   }
 }
